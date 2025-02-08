@@ -8,10 +8,13 @@ axios.get('http://127.0.0.1:8000/api/posts').then(response => {
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <NuxtRouteAnnouncer />
-    <ul>
-      <li v-for="post in posts">{{ post.title }}</li>
-    </ul>
+    <section class="section">
+      <b-button type="is-primary">Primary</b-button>
+      <ul>
+        <li v-for="post in posts">{{ post.title }}</li>
+      </ul>
+    </section>
   </div>
 </template>
