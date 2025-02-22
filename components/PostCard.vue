@@ -3,6 +3,9 @@ defineProps({
     post: Object,
     full: Boolean
 });
+import {DateTime} from 'luxon';
+
+const isoStringToRelativeTime = isoString => DateTime.fromISO(isoString).toRelative();
 
 </script>
 
@@ -29,7 +32,7 @@ defineProps({
                 <p v-if="full">{{ post.body }}</p>
                 <p v-else>{{ post.snippet }}</p>
                 <p>{{ post.user.name }}</p>
-                <time datetime="{{ post.created_at }}">{{ post.created_at }}</time>
+                <time datetime="{{ post.created_at }}">{{ isoStringToRelativeTime(post.created_at) }}</time>
             </div>
         </div>
         <div class="spacer"></div>
