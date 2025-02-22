@@ -4,5 +4,6 @@
 
 <template>
     <NuxtRouteAnnouncer />
+    <MainNav></MainNav>
     <NuxtPage></NuxtPage>
 </template>
