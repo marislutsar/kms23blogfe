@@ -1,28 +1,27 @@
 <script setup>
-import axios from 'axios';
-let posts = ref([]);
-let pagination = ref({});
-axios.get('http://127.0.0.1:8000/api/posts').then(response => {
-    console.log(response.data.data);
-    posts.value = response.data.data;
-    pagination.value = response.data;
-    delete pagination.value.data;
-    console.log(pagination.value);
+import { usePostsStore } from '~/store/posts';
+let posts = usePostsStore();
+let route = useRoute();
+let router = useRouter();
+
+router.afterEach((to, from) => {
+    
+    if(to.path === '/' && to.query?.page === undefined){
+        posts.loadPage(1);
+    }
 });
 
-function loadPage(page){
-    axios.get('http://127.0.0.1:8000/api/posts', {
-        params: {
-            page, // page: page
-        }
-    }).then(response => {
-    console.log(response.data.data);
-    posts.value = response.data.data;
-    pagination.value = response.data;
-    delete pagination.value.data;
-    console.log(pagination.value);
-    });
+let page = route.query.page ?? 1;
+if(posts.pagination?.current_page != page){
+    posts.loadPage(page);
 }
+
+function changePage(page){
+    router.push({query: { page: page } })
+    posts.loadPage(page);
+}
+
+
 </script>
 
 <template>
@@ -31,14 +30,14 @@ function loadPage(page){
             <b-pagination 
                 :range-before="3"
                 :range-after="3"
-                :total="pagination.total"
-                :per-page="pagination.per_page"
+                :total="posts.pagination.total"
+                :per-page="posts.pagination.per_page"
                 order="is-centered"
-                v-model="pagination.current_page"
-                @change="loadPage">
+                v-model="posts.pagination.current_page"
+                @change="changePage">
             </b-pagination>
             <div class="columns is-multiline">
-                <div class="column is-one-quarter" v-for="post in posts">
+                <div class="column is-one-quarter" v-for="post in posts.data">
                     <PostCard :post="post"></PostCard>
                 </div>
             </div>
