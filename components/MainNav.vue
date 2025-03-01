@@ -1,5 +1,6 @@
 <script setup>
-
+import { useUserStore } from '~/store/user';
+const auth = useUserStore();
 </script>
 <template>
     <b-navbar>
@@ -29,7 +30,7 @@
         </template>
 
         <template #end>
-            <b-navbar-item tag="div">
+            <b-navbar-item tag="div" v-if="!auth.user">
                 <div class="buttons">
                     <NuxtLink class="button is-primary" to="/register">
                         <strong>Sign up</strong>
@@ -39,6 +40,11 @@
                     </NuxtLink>
                 </div>
             </b-navbar-item>
+            <b-navbar-dropdown :label="auth.user.name" v-else>
+                <b-navbar-item @click="auth.logout">
+                    Logout
+                </b-navbar-item>
+            </b-navbar-dropdown>
         </template>
     </b-navbar>
 </template>

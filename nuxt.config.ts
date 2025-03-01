@@ -8,4 +8,11 @@ export default defineNuxtConfig({
     }
   },
   modules: ['@pinia/nuxt'],
+  runtimeConfig: {
+    public: {
+      api: {
+        baseUrl: ''
+      }
+    }
+  }
 });

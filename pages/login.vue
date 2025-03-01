@@ -1,16 +1,15 @@
 <script setup>
-    import axios from 'axios';
+    import { useUserStore } from '~/store/user';
+    let auth = useUserStore();
     let router = useRouter();
     let form = ref({
-        email: '',
-        password: '',
+        email: 'kasparsu@gmail.com',
+        password: 'pass',
     });
     
-    function login(){
-        axios.post('http://127.0.0.1:8000/api/login', form.value).then(res => {
-            console.log(res.data);
-            router.go('/');
-        });
+    async function login(){
+        await auth.login(form.value.email, form.value.password);
+        router.push('/');
     }
 </script>
 

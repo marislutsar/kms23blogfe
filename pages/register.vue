@@ -1,5 +1,7 @@
 <script setup>
-    import axios from 'axios';
+
+    import { useUserStore } from '~/store/user';
+    let auth = useUserStore();
     let router = useRouter();
     let form = ref({
         name: '',
@@ -8,11 +10,10 @@
         password_confirmation: ''
     });
     
-    function register(){
-        axios.post('http://127.0.0.1:8000/api/register', form.value).then(res => {
-            console.log(res.data);
-            router.go('/login');
-        });
+    function register() {
+        let {name, email, password, password_confirmation} = form.value;
+        auth.register(name, email, password, password_confirmation);
+        router.push('/');
     }
 </script>
 
