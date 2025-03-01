@@ -31,12 +31,12 @@
         <template #end>
             <b-navbar-item tag="div">
                 <div class="buttons">
-                    <a class="button is-primary">
+                    <NuxtLink class="button is-primary" to="/register">
                         <strong>Sign up</strong>
-                    </a>
-                    <a class="button is-light">
+                    </NuxtLink>
+                    <NuxtLink class="button is-light" to="/login">
                         Log in
-                    </a>
+                    </NuxtLink>
                 </div>
             </b-navbar-item>
         </template>
