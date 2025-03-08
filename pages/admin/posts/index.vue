@@ -26,6 +26,9 @@ function changePage(page){
 function sort(event){
     console.log(event);
 }
+const access = (path, object) => {
+  return path.split('.').reduce((o, i) => o[i], object)
+}
 </script>
 <template>
         <div class="container">
@@ -39,7 +42,7 @@ function sort(event){
                     	
                     backend-pagination
                     :data="posts.data"
-                    :columns="posts.columns"
+                    
                     :range-before="3"
                     :range-after="3"
                     :total="posts.pagination.total"
@@ -51,7 +54,27 @@ function sort(event){
                     
                     @sort="sort"
                     
-                    ></b-table>
+                    >
+                    <b-table-column v-for="column in posts.columns" :label="column.label" v-slot="props">
+                        {{ access(column.field, props.row) }}
+                    </b-table-column>
+                    <b-table-column label="Actions" v-slot="props">
+                        <div class="field has-addons">
+                            <p class="control">
+                                <b-button type="is-info" tag="router-link"
+                                :to="`/admin/posts/${props.row.id}`">View</b-button>
+                            </p>
+                            <p class="control">
+                                <b-button type="is-warning" tag="router-link"
+                                :to="`/admin/posts/${props.row.id}/edit`">View</b-button>
+                            </p>
+                            <p class="control">
+                                <b-button type="is-danger" tag="router-link"
+                                :to="`/admin/posts/${props.row.id}/delete`">View</b-button>
+                            </p>
+                        </div>
+                    </b-table-column>
+                </b-table>
             </section>
         </div>
 </template>
