@@ -27,7 +27,6 @@ const isoStringToRelativeTime = isoString => DateTime.fromISO(isoString).toRelat
             </b-carousel-item>
         </b-carousel>
         <div class="card-content">
-
             <div class="content">
                 <p v-if="full">{{ post.body }}</p>
                 <p v-else>{{ post.snippet }}</p>
@@ -37,7 +36,7 @@ const isoStringToRelativeTime = isoString => DateTime.fromISO(isoString).toRelat
         </div>
         <div class="spacer"></div>
         <footer class="card-footer">
-            <NuxtLink :to="'/post/' + post.slug " class="card-footer-item" v-if="!full">Read more</NuxtLink>
+            <NuxtLink :to="'/post/' + post.slug" class="card-footer-item" v-if="!full">Read more</NuxtLink>
         </footer>
     </div>
 </template>

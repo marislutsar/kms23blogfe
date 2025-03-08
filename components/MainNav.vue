@@ -19,12 +19,9 @@ const auth = useUserStore();
             <b-navbar-item href="#">
                 Documentation
             </b-navbar-item>
-            <b-navbar-dropdown label="Info">
-                <b-navbar-item href="#">
-                    About
-                </b-navbar-item>
-                <b-navbar-item href="#">
-                    Contact
+            <b-navbar-dropdown label="Admin">
+                <b-navbar-item tag="router-link" to="/admin/posts">
+                    Posts
                 </b-navbar-item>
             </b-navbar-dropdown>
         </template>
