@@ -1,5 +1,6 @@
 <script setup>
 import { useAdminPostsStore } from '~/store/admin-posts';
+import axios from 'axios';
 let posts = useAdminPostsStore();
 
 let route = useRoute();
@@ -29,6 +30,13 @@ function sort(event){
 const access = (path, object) => {
   return path.split('.').reduce((o, i) => o[i], object)
 }
+
+function deletePost(slug) {
+    axios.delete('/api/admin/posts/'+ slug).then(response => {
+        posts.loadPage(page);
+    });
+}
+
 </script>
 <template>
         <div class="container">
@@ -69,8 +77,7 @@ const access = (path, object) => {
                                 :to="`/admin/posts/${props.row.slug}/edit`">Edit</b-button>
                             </p>
                             <p class="control">
-                                <b-button type="is-danger" tag="router-link"
-                                :to="`/admin/posts/${props.row.id}/delete`">Delete</b-button>
+                                <b-button type="is-danger" @click="deletePost(props.row.slug)">Delete</b-button>
                             </p>
                         </div>
                     </b-table-column>
