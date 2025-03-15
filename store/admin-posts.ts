@@ -3,6 +3,11 @@ import axios from 'axios';
 
 export const useAdminPostsStore = defineStore('adminPostsStore', {
     state: () => ({
+      post: null,
+      editForm: {
+        title: null,
+        body: null,
+      },
       data: [],
       pagination: {
         
@@ -56,5 +61,12 @@ export const useAdminPostsStore = defineStore('adminPostsStore', {
                 this.loading = false;
             });
         },
+        loadPost(slug: String){
+            axios.get('/api/admin/posts/' + slug).then(response => {
+                this.post = response.data;
+                this.editForm.title = response.data.title;
+                this.editForm.body = response.data.body;
+            });
+        }
     }
 });

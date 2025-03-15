@@ -62,15 +62,15 @@ const access = (path, object) => {
                         <div class="field has-addons">
                             <p class="control">
                                 <b-button type="is-info" tag="router-link"
-                                :to="`/admin/posts/${props.row.id}`">View</b-button>
+                                :to="`/admin/posts/${props.row.slug}`">View</b-button>
                             </p>
                             <p class="control">
                                 <b-button type="is-warning" tag="router-link"
-                                :to="`/admin/posts/${props.row.id}/edit`">View</b-button>
+                                :to="`/admin/posts/${props.row.slug}/edit`">Edit</b-button>
                             </p>
                             <p class="control">
                                 <b-button type="is-danger" tag="router-link"
-                                :to="`/admin/posts/${props.row.id}/delete`">View</b-button>
+                                :to="`/admin/posts/${props.row.id}/delete`">Delete</b-button>
                             </p>
                         </div>
                     </b-table-column>
