@@ -38,7 +38,7 @@ function changePage(page){
             </b-pagination>
             <div class="columns is-multiline">
                 <div class="column is-one-quarter" v-for="post in posts.data">
-                    <PostCard :post="post"></PostCard>
+                    <PostCard :post="post" @like="post.auth_has_liked=!post.auth_has_liked"></PostCard>
                 </div>
             </div>
         </section>

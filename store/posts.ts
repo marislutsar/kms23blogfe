@@ -10,7 +10,7 @@ export const usePostsStore = defineStore('postsStore', {
     }),
     actions: {
         loadPage(page: Number){
-            axios.get('http://127.0.0.1:8000/api/posts', {
+            axios.get('/api/posts', {
                 params: {
                     page, // page: page
                 }
