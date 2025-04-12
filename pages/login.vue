@@ -3,8 +3,8 @@
     let auth = useUserStore();
     let router = useRouter();
     let form = ref({
-        email: 'kasparsu@gmail.com',
-        password: 'pass',
+        email: 'maris7@tptlive.com',
+        password: 'password',
     });
     
     async function login(){

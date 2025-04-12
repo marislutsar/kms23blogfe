@@ -23,6 +23,9 @@ const auth = useUserStore();
                 <b-navbar-item tag="router-link" to="/admin/posts">
                     Posts
                 </b-navbar-item>
+                <b-navbar-item tag="router-link" to="/admin/tags">
+                    Tags
+                </b-navbar-item>
             </b-navbar-dropdown>
         </template>
 

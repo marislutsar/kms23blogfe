@@ -8,10 +8,33 @@ export default defineNuxtConfig({
     }
   },
   modules: ['@pinia/nuxt'],
+  hooks: {
+    'app:created': (app) => {
+      app.middleware.push({
+        name: 'auth',
+        path: '/tags/create',
+        handler: 'auth'
+      })
+      app.middleware.push({
+        name: 'auth',
+        path: '/tags/edit',
+        handler: 'auth'
+      })
+    }
+  },
+  routeRules: {
+    '/api/**': {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+      }
+    }
+  },
   runtimeConfig: {
     public: {
       api: {
-        baseUrl: ''
+        baseUrl: 'http://localhost:8000/api',
       }
     }
   }
