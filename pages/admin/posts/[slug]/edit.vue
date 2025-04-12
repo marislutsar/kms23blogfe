@@ -5,10 +5,12 @@ let posts = useAdminPostsStore();
 const route = useRoute();
 posts.loadPost(route.params.slug);
 let router = useRouter();
+let postsStore = useAdminPostsStore();
 
 function update(){
     axios.put('/api/admin/posts/'+ route.params.slug, posts.editForm).then(response => {
         console.log(response.data);
+        postsStore.loadPage(1); // refresh listing view after updating post
         router.push('/admin/posts');
     });
 }

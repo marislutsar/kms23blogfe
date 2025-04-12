@@ -1,6 +1,8 @@
 <script setup>
 import axios from 'axios';
+import { useAdminPostsStore } from '~/store/admin-posts';
 let router = useRouter();
+let postsStore = useAdminPostsStore();
 let form = ref({
     title: '',
     body: '',
@@ -9,25 +11,54 @@ let form = ref({
 });
 let tags = ref(null);
 let filteredTags = ref(null);
-const res = await axios.get('/api/tags');
+// Use admin endpoint for tags
+const res = await axios.get('/api/admin/tags');
 tags.value = res.data;
 filteredTags.value = res.data;
 let selectedTags = ref([]);
 
+// Modified handleEnter to use admin tags endpoint
+async function handleEnter(event) {
+    const value = event.target.value.trim();
+    if(value) {
+        const response = await axios.post('/api/admin/tags', { name: value });
+        const newTag = response.data;
+        selectedTags.value.push(newTag);
+        if (!tags.value.find(t => t.id === newTag.id)) {
+            tags.value.push(newTag);
+        }
+        event.target.value = '';
+    }
+}
+
 function create() {
-    form.value.tags = selectedTags.value.map(tag => tag.id);
-    axios.post('/api/admin/posts', form.value, {
+    let formData = new FormData();
+    formData.append('title', form.value.title);
+    formData.append('body', form.value.body);
+    // Map tags so that if tag has no id, use its name; defaults to empty array if not provided
+    form.value.tags = selectedTags.value.length ? selectedTags.value.map(tag => tag.id || tag.name) : [];
+    
+    // Append each tag as an array field
+    form.value.tags.forEach(tag => {
+        formData.append('tags[]', tag);
+    });
+    
+    for (let i = 0; i < form.value.images.length; i++) {
+        formData.append('images[]', form.value.images[i]);
+    }
+
+    axios.post('/api/admin/posts', formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
     }).then(response => {
         console.log(response.data);
+        postsStore.loadPage(1); // refresh listing view after creating new post
         router.push('/admin/posts');
     });
 }
 function deleteDropFile(index) {
     form.value.images.splice(index, 1)
-
 }
 
 function getFilteredTags(text){
@@ -49,11 +80,11 @@ function getFilteredTags(text){
                         <b-input v-model="form.body" type="textarea"></b-input>
                     </b-field>
                     <section>
-                      
                         <b-field label="Enter some tags">
+                            <!-- Added handleEnter for new tags -->
                             <b-taginput v-model="selectedTags" :data="filteredTags" autocomplete
                                 field="name" icon="label"
-                                placeholder="Add a tag" @typing="getFilteredTags">
+                                placeholder="Add a tag" @typing="getFilteredTags" @keyup.enter.native="handleEnter">
                             </b-taginput>
                         </b-field>
                     </section>
